@@ -21,12 +21,12 @@ from Mri import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('api/v1/research/', ResearchAPIView.as_view()),
+    path('api/v1/research/', ResearchAPIView.as_view(), name='research'),
     path('api/v1/auth/', include('rest_framework.urls')),
     path('accounts/profile/', ProfileAPIView.as_view()),
-    path('api/v1/start/', StartAPIView.as_view()),
-    path('api/v1/report/', CreateReportAPIView.as_view()),
-    path('api/v1/archive/', CreateArchiveAPIView.as_view())
+    path('api/v1/start/', StartAPIView.as_view(), name='start'),
+    path('api/v1/report/', CreateReportAPIView.as_view(), name='report'),
+    path('api/v1/archive/', CreateArchiveAPIView.as_view(), name='archive')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -25,6 +25,7 @@ class ResearchAPIView(generics.CreateAPIView):
         research_obj = Research.objects.create(doctor=doctor, patient=patient)
         arr = []
         print(request.data)
+        print(request.FILES.getlist('images'))
         for i in request.FILES.getlist('images'):
             arr.append(Images.objects.create(research=research_obj, image=i, masked=i))
         images_serialized = ImagesSerializers(arr, many=True)
