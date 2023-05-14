@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from MriApi.views import (ResearchAPIView, ProfileAPIView, StartAPIView, CreateReportAPIView, CreateArchiveAPIView)
+from MriApi.views import (ResearchAPIView, ProfileAPIView, StartAPIView, CreateReportAPIView, CreateArchiveAPIView, RegistrationAPIView)
 from Mri import settings
 
 urlpatterns = [
@@ -26,7 +26,8 @@ urlpatterns = [
     path('accounts/profile/', ProfileAPIView.as_view()),
     path('api/v1/start/', StartAPIView.as_view(), name='start'),
     path('api/v1/report/', CreateReportAPIView.as_view(), name='report'),
-    path('api/v1/archive/', CreateArchiveAPIView.as_view(), name='archive')
+    path('api/v1/archive/', CreateArchiveAPIView.as_view(), name='archive'),
+    path('api/v1/registration/', RegistrationAPIView.as_view(), name='registration')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

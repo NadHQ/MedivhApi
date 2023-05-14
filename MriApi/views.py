@@ -9,11 +9,26 @@ from rest_framework.views import APIView
 from django.core.files.base import ContentFile
 from .models import Research, User, License, Doctors, Patient, Images
 from .serializers import (ResearchSerializer, UserSerializer, DoctorsSerializer, PatientSerializer,
-                          ResearchOnlySerializer, ImagesSerializers)
+                          ResearchOnlySerializer, ImagesSerializers, RegistrationSerializer)
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 # Create your views here.
+
+class RegistrationAPIView(APIView):
+
+    def post(self, request):
+        serializer = RegistrationSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.save()
+            Doctors.objects.create(name="", second_name="", third_name="", profession="", licence=user.licence)
+            licence = user.licence
+            licence.is_used = True
+            licence.save()
+            return Response({"answer": "Registration Complete"})
+        return Response({'answer': "Error"})
+
+
 class ResearchAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ResearchOnlySerializer
@@ -83,8 +98,8 @@ class StartAPIView(generics.CreateAPIView):
 def get_data_session(request):
     data: User
     data = request.user
-    license_number = request.user.linecse.number
-    doctor = Doctors.objects.get(licence=data.linecse)
+    license_number = request.user.licence.number
+    doctor = Doctors.objects.get(licence=data.licence)
     return license_number, doctor
 
 

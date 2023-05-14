@@ -5,7 +5,7 @@ from django.db import models
 
 # Create your models here.
 class User(AbstractUser):
-    linecse = models.ForeignKey('License', on_delete=models.CASCADE, null=True)
+    licence = models.ForeignKey('License', on_delete=models.CASCADE, null=True)
 
 
 def upload_link(instance, filename):

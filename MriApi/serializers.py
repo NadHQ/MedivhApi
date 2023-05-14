@@ -45,3 +45,17 @@ class ImagesSerializers(serializers.ModelSerializer):
     class Meta:
         model = Images
         fields = ['image', 'masked']
+
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    licence = serializers.CharField()
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'licence']
+
+    def create(self, validated_data):
+        licenseEntity = validated_data.pop('licence')
+        licence = License.objects.get(number=licenseEntity)
+        validated_data['licence'] = licence
+        user = User.objects.create_user(**validated_data)
+        return user
